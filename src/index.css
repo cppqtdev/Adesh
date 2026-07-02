@@ -818,6 +818,17 @@ main,
   margin-bottom: 48px;
 }
 
+/* equal-height cards — stretch through the reveal wrapper */
+.projects__list > .reveal,
+.repo-grid > .reveal {
+  display: flex;
+}
+
+.projects__list .project-card,
+.repo-grid .repo-card {
+  width: 100%;
+}
+
 .project-card {
   display: flex;
   flex-direction: column;
