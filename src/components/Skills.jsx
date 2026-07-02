@@ -4,15 +4,24 @@ import SectionHeader from './SectionHeader.jsx'
 import Reveal from './Reveal.jsx'
 import SkillsGraph from './SkillsGraph.jsx'
 
+const CAT_COLORS = {
+  Languages: '#22c55e',
+  'Qt ecosystem': '#a855f7',
+  'Embedded & IoT': '#eab308',
+  'Build & tooling': '#3b82f6',
+  'Data & storage': '#8b5cf6',
+  Platforms: '#ef4444',
+}
+
 export default function Skills() {
   const [active, setActive] = useState(null)
+  const [hover, setHover] = useState(null)
   const [useGraph, setUseGraph] = useState(false)
 
   useEffect(() => {
     const fine = window.matchMedia('(pointer: fine)').matches
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const wide = window.innerWidth > 760
-    setUseGraph(fine && !reduced && wide)
+    setUseGraph(fine && !reduced && window.innerWidth > 760)
   }, [])
 
   const allChips = skills.categories.flatMap((cat) =>
@@ -24,8 +33,17 @@ export default function Skills() {
       <SectionHeader num="04" label="skills" kicker={skills.kicker} heading={skills.heading} />
       <Reveal>
         {useGraph ? (
-          <div className="skills-graph-wrap">
-            <SkillsGraph activeCat={active} onHoverCat={setActive} />
+          <div className="skills-layout">
+            <div className="skills-info">
+              <p className="mono skills-info__cat" style={{ color: hover ? CAT_COLORS[hover.cat] : undefined }}>
+                {(hover?.cat || active || 'the toolbox').toUpperCase()}
+              </p>
+              <h3 className="skills-info__name">{hover?.item || '30+ tools'}</h3>
+              <p className="mono skills__hint">drag · hover · explore</p>
+            </div>
+            <div className="skills-graph-wrap">
+              <SkillsGraph activeCat={active} catColors={CAT_COLORS} onHover={setHover} />
+            </div>
           </div>
         ) : (
           <div className="skills__cloud">
@@ -44,21 +62,18 @@ export default function Skills() {
             ))}
           </div>
         )}
-        <p className="skills__hint mono">
-          {useGraph ? 'drag · hover · explore' : 'hover · explore'}
-          {active ? ` · ${active}` : ''}
-        </p>
       </Reveal>
       <div className="skills__cats">
         {skills.categories.map((cat, i) => (
           <Reveal key={cat.name} delay={i * 60}>
             <button
               className={`skills__cat mono ${active === cat.name ? 'skills__cat--active' : ''}`}
+              style={{ '--cat-color': CAT_COLORS[cat.name] }}
               onMouseEnter={() => setActive(cat.name)}
               onMouseLeave={() => setActive(null)}
               type="button"
             >
-              {cat.name}
+              {cat.name.toUpperCase()}
             </button>
           </Reveal>
         ))}

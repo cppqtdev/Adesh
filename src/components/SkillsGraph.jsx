@@ -2,10 +2,11 @@ import { useEffect, useRef } from 'react'
 import { skills } from '../data.js'
 
 /**
- * Force-directed skills network — drag, hover, explore.
- * Category hubs pull their skills together; everything repels softly.
+ * Force-directed skills network, jagmeet.cloud style:
+ * one central cluster of gray nodes + faint links, hovered node highlighted,
+ * hovered skill reported up for the side info panel. Drag to fling nodes.
  */
-export default function SkillsGraph({ activeCat, onHoverCat }) {
+export default function SkillsGraph({ activeCat, catColors, onHover }) {
   const canvasRef = useRef(null)
   const activeRef = useRef(activeCat)
   activeRef.current = activeCat
@@ -18,48 +19,48 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
     let w = 0
     let h = 0
     let nodes = []
-    let hubs = []
+    let edges = []
     let dragging = null
     let hovered = null
-    const mouse = { x: -9999, y: -9999 }
 
-    const colors = () =>
+    const theme = () =>
       document.documentElement.dataset.theme === 'dark'
-        ? { text: '#e8eee4', muted: '#94a08c', accent: '#b6f09c', line: 'rgba(182,240,156,' }
-        : { text: '#16181a', muted: '#667065', accent: '#17913f', line: 'rgba(23,145,63,' }
+        ? { text: '#e8eee4', muted: 'rgba(148,160,140,', node: 'rgba(148,160,140,' }
+        : { text: '#16181a', muted: 'rgba(102,112,101,', node: 'rgba(120,128,120,' }
 
     const build = () => {
       nodes = []
-      hubs = []
+      edges = []
+      const cx = w / 2
+      const cy = h / 2
+      const R = Math.min(w, h) * 0.3
       const catCount = skills.categories.length
       skills.categories.forEach((cat, ci) => {
         const ang = (ci / catCount) * Math.PI * 2 - Math.PI / 2
-        const hub = {
-          label: cat.name,
-          cat: cat.name,
-          hub: true,
-          x: w / 2 + Math.cos(ang) * w * 0.28,
-          y: h / 2 + Math.sin(ang) * h * 0.3,
-          vx: 0,
-          vy: 0,
-          r: 26,
+        // invisible anchor per category — keeps the blob loosely organised
+        const anchor = {
+          x: cx + Math.cos(ang) * R * 0.55,
+          y: cy + Math.sin(ang) * R * 0.55,
         }
-        hubs.push(hub)
-        nodes.push(hub)
+        const start = nodes.length
         cat.items.forEach((item, ii) => {
           const a2 = ang + (ii / cat.items.length) * Math.PI * 2
           nodes.push({
             label: item,
             cat: cat.name,
-            hub: false,
-            hubRef: hub,
-            x: hub.x + Math.cos(a2) * 70 + (Math.random() - 0.5) * 30,
-            y: hub.y + Math.sin(a2) * 70 + (Math.random() - 0.5) * 30,
+            anchor,
+            x: anchor.x + Math.cos(a2) * 60 + (Math.random() - 0.5) * 40,
+            y: anchor.y + Math.sin(a2) * 60 + (Math.random() - 0.5) * 40,
             vx: 0,
             vy: 0,
-            r: 13,
           })
         })
+        // link each node to the next two in its category → web look
+        const n = cat.items.length
+        for (let i = 0; i < n; i++) {
+          edges.push([start + i, start + ((i + 1) % n)])
+          if (n > 3) edges.push([start + i, start + ((i + 2) % n)])
+        }
       })
     }
 
@@ -67,7 +68,7 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
       const rect = canvas.parentElement.getBoundingClientRect()
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
       w = rect.width
-      h = 560
+      h = Math.min(560, Math.max(420, rect.width * 0.7))
       canvas.width = w * dpr
       canvas.height = h * dpr
       canvas.style.width = `${w}px`
@@ -82,36 +83,37 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
       return { x: t.clientX - r.left, y: t.clientY - r.top }
     }
 
-    const pick = (p) =>
-      nodes.find((n) => Math.hypot(n.x - p.x, n.y - p.y) < n.r + 14) || null
+    const pick = (p) => nodes.find((n) => Math.hypot(n.x - p.x, n.y - p.y) < 18) || null
 
     const onDown = (e) => {
-      const p = pos(e)
-      dragging = pick(p)
+      dragging = pick(pos(e))
       if (dragging) e.preventDefault()
     }
     const onMove = (e) => {
       const p = pos(e)
-      mouse.x = p.x
-      mouse.y = p.y
       if (dragging) {
         dragging.x = p.x
         dragging.y = p.y
         dragging.vx = 0
         dragging.vy = 0
-      } else {
-        const hit = pick(p)
-        if (hit?.cat !== hovered?.cat) onHoverCat?.(hit ? hit.cat : null)
+        return
+      }
+      const hit = pick(p)
+      if (hit !== hovered) {
         hovered = hit
+        onHover?.(hit ? { item: hit.label, cat: hit.cat } : null)
         canvas.style.cursor = hit ? 'grab' : ''
       }
     }
     const onUp = () => {
       dragging = null
     }
+    const onLeave = () => {
+      hovered = null
+      onHover?.(null)
+    }
 
     const step = () => {
-      // pairwise repulsion
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i]
@@ -120,8 +122,8 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
           let dy = a.y - b.y
           let d2 = dx * dx + dy * dy
           if (d2 < 1) d2 = 1
-          if (d2 > 200 * 200) continue
-          const f = 1600 / d2
+          if (d2 > 150 * 150) continue
+          const f = 1300 / d2
           const d = Math.sqrt(d2)
           dx /= d
           dy /= d
@@ -132,70 +134,72 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
         }
       }
       for (const n of nodes) {
-        // spring to hub / hub to center
-        if (!n.hub) {
-          const dx = n.hubRef.x - n.x
-          const dy = n.hubRef.y - n.y
-          n.vx += dx * 0.012
-          n.vy += dy * 0.012
-        } else {
-          n.vx += (w / 2 - n.x) * 0.0015
-          n.vy += (h / 2 - n.y) * 0.0015
-        }
-        n.vx *= 0.86
-        n.vy *= 0.86
+        n.vx += (n.anchor.x - n.x) * 0.006
+        n.vy += (n.anchor.y - n.y) * 0.006
+        n.vx += (w / 2 - n.x) * 0.0012
+        n.vy += (h / 2 - n.y) * 0.0012
+        n.vx *= 0.88
+        n.vy *= 0.88
         if (n !== dragging) {
           n.x += n.vx
           n.y += n.vy
         }
-        // keep inside
-        n.x = Math.max(n.r + 4, Math.min(w - n.r - 4, n.x))
-        n.y = Math.max(n.r + 4, Math.min(h - n.r - 4, n.y))
+        n.x = Math.max(14, Math.min(w - 14, n.x))
+        n.y = Math.max(14, Math.min(h - 14, n.y))
       }
     }
 
     const draw = () => {
       step()
       ctx.clearRect(0, 0, w, h)
-      const c = colors()
+      const c = theme()
       const active = activeRef.current
 
-      // edges
-      for (const n of nodes) {
-        if (n.hub) continue
-        const dim = active && n.cat !== active
-        ctx.strokeStyle = `${c.line}${dim ? 0.06 : 0.22})`
-        ctx.lineWidth = 1
+      // links
+      ctx.lineWidth = 1
+      for (const [i, j] of edges) {
+        const a = nodes[i]
+        const b = nodes[j]
+        const lit = active && a.cat === active
+        const dim = active && a.cat !== active
+        ctx.strokeStyle = `${c.muted}${lit ? 0.35 : dim ? 0.05 : 0.14})`
         ctx.beginPath()
-        ctx.moveTo(n.x, n.y)
-        ctx.lineTo(n.hubRef.x, n.hubRef.y)
+        ctx.moveTo(a.x, a.y)
+        ctx.lineTo(b.x, b.y)
         ctx.stroke()
       }
 
-      // nodes
-      ctx.textAlign = 'center'
+      // nodes + labels
+      ctx.textAlign = 'left'
+      ctx.font = '11px ui-monospace, SFMono-Regular, Menlo, monospace'
       for (const n of nodes) {
-        const isActive = active && n.cat === active
+        const isHover = n === hovered
+        const lit = active && n.cat === active
         const dim = active && n.cat !== active
-        const alpha = dim ? 0.25 : 1
+        const color = catColors[n.cat]
 
-        ctx.globalAlpha = alpha
-        ctx.beginPath()
-        ctx.arc(n.x, n.y, n.hub ? 7 : 4, 0, Math.PI * 2)
-        ctx.fillStyle = isActive || n.hub ? c.accent : c.muted
-        ctx.fill()
-        if (isActive) {
-          ctx.strokeStyle = `${c.line}0.5)`
+        ctx.globalAlpha = dim ? 0.22 : 1
+
+        if (isHover) {
+          // dark core + ring, like the reference
           ctx.beginPath()
-          ctx.arc(n.x, n.y, n.hub ? 13 : 9, 0, Math.PI * 2)
+          ctx.arc(n.x, n.y, 5.5, 0, Math.PI * 2)
+          ctx.fillStyle = c.text
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(n.x, n.y, 10.5, 0, Math.PI * 2)
+          ctx.strokeStyle = c.text
+          ctx.lineWidth = 1.5
           ctx.stroke()
+        } else {
+          ctx.beginPath()
+          ctx.arc(n.x, n.y, 4.5, 0, Math.PI * 2)
+          ctx.fillStyle = lit ? color : `${c.node}0.75)`
+          ctx.fill()
         }
 
-        ctx.font = n.hub
-          ? '600 12px ui-monospace, monospace'
-          : '11px ui-monospace, monospace'
-        ctx.fillStyle = n.hub ? c.accent : isActive ? c.text : c.muted
-        ctx.fillText(n.label, n.x, n.y - (n.hub ? 14 : 10))
+        ctx.fillStyle = isHover ? c.text : lit ? color : `${c.muted}0.9)`
+        ctx.fillText(n.label, n.x + 10, n.y + 4)
         ctx.globalAlpha = 1
       }
 
@@ -206,6 +210,7 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
     window.addEventListener('resize', resize)
     canvas.addEventListener('mousedown', onDown)
     canvas.addEventListener('mousemove', onMove)
+    canvas.addEventListener('mouseleave', onLeave)
     window.addEventListener('mouseup', onUp)
     canvas.addEventListener('touchstart', onDown, { passive: false })
     canvas.addEventListener('touchmove', onMove, { passive: true })
@@ -217,6 +222,7 @@ export default function SkillsGraph({ activeCat, onHoverCat }) {
       window.removeEventListener('resize', resize)
       canvas.removeEventListener('mousedown', onDown)
       canvas.removeEventListener('mousemove', onMove)
+      canvas.removeEventListener('mouseleave', onLeave)
       window.removeEventListener('mouseup', onUp)
       canvas.removeEventListener('touchstart', onDown)
       canvas.removeEventListener('touchmove', onMove)
