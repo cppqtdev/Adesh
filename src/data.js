@@ -4,6 +4,21 @@ export const profile = {
   name: 'Adesh Singh',
   firstName: 'Adesh',
   role: 'Qt QML Engineer',
+  roles: [
+    'Qt QML Engineer',
+    'Embedded Software Developer',
+    'Qt Desktop Developer',
+    'Qt Software Developer',
+  ],
+  hireFor: [
+    'Qt QML Development',
+    'Qt Software Development',
+    'Qt HMI Development',
+    'Embedded Software Development',
+    'C++ Software Development',
+    'Qt for MCU Development',
+    'QWidget → QML Migration',
+  ],
   tagline: 'Crafting pixel-perfect interfaces for devices that live beyond the browser.',
   email: 'adeshworkmail@gmail.com',
   companyEmail: 'contact@techcoderhub.com',
@@ -159,6 +174,135 @@ export const projects = {
           'Room-based navigation optimized for touch panels',
           'Real-time device state sync over MQTT',
           'Runs on embedded Linux with EGLFS — no window system needed',
+        ],
+      },
+    },
+    {
+      num: '04',
+      slug: 'reamon-console',
+      title: 'Reamon Automotive Console UI',
+      description:
+        'Automotive infotainment and vehicle-control console for camera, navigation, climate, media, tire pressure, and power controls — 16 console screens.',
+      tags: ['Qt QML', 'C++', 'Automotive HMI'],
+      url: 'https://techcoderhub.com/projects/industrial-hmi-system',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Quick', 'CMake'],
+        overview:
+          'A Reamon-branded vehicle console spanning 16 screens: reverse camera, tire warnings, navigation, climate, seat comfort, media, and power-mode controls — built as a reusable QML component system over a C++ vehicle-data layer.',
+        features: [
+          'Reverse camera and parking assist views',
+          'Tire pressure monitoring with warning states',
+          'Climate and seat comfort controls',
+          'Media playback and power-mode management',
+          'Consistent card-based screen architecture',
+        ],
+      },
+    },
+    {
+      num: '05',
+      slug: 'scooty-dashboard',
+      title: 'Scooty EV Dashboard UI',
+      description:
+        'Two-wheeler digital dashboard for real-time riding data — speed, battery, warnings, and vehicle status on a compact embedded display.',
+      tags: ['Qt QML', 'C++', 'Automotive / EV'],
+      url: 'https://techcoderhub.com/projects/eagle-scooty',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Embedded Linux'],
+        overview:
+          'A compact digital cluster for electric two-wheelers with light and dark themes from Figma designs. Ride data, battery state, warnings, and status screens tuned for sunlight readability on small displays.',
+        features: [
+          'Real-time speed and ride telemetry',
+          'Battery state of charge and range estimation',
+          'Warning and indicator states',
+          'Light & dark themes from Figma design system',
+          'Optimized for compact embedded display targets',
+        ],
+      },
+    },
+    {
+      num: '06',
+      slug: 'tesla-dashboard',
+      title: 'Tesla-style Dashboard UI',
+      description:
+        'Automotive-style infotainment and vehicle-control UI — vehicle state, media, navigation, and comfort controls with a next-gen visual hierarchy.',
+      tags: ['Qt QML', 'C++', 'Automotive'],
+      url: 'https://techcoderhub.com/projects/tesla',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Quick'],
+        overview:
+          'A Tesla-inspired control interface for vehicle state, media, navigation, and comfort — one of my most popular open-source Qt/QML projects (the GitHub repo has 160+ stars). A second variant refines the visual hierarchy and screen-to-screen consistency.',
+        features: [
+          'Vehicle state visualization and controls',
+          'Media, navigation, and comfort surfaces',
+          'Next-gen variant with refined hierarchy',
+          'Open source on GitHub (cppqtdev/Tesla)',
+        ],
+      },
+    },
+    {
+      num: '07',
+      slug: 'wide-ev-dashboard',
+      title: 'Wide EV Dashboard HMI',
+      description:
+        'Panoramic in-car dashboard — map, speed cluster, battery, charging, vehicle controls, Bluetooth, Spotify, and weather in a wide-format layout.',
+      tags: ['Qt QML', 'C++', 'Automotive HMI'],
+      url: 'https://techcoderhub.com/projects/hmi-2',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Location'],
+        overview:
+          'A wide-format electric vehicle dashboard designed for panoramic cockpit displays: navigation map, speed cluster, battery and charging views, vehicle controls, and connectivity (Bluetooth, Spotify, weather) in one continuous layout.',
+        features: [
+          'Full-width map with navigation overlays',
+          'Speed cluster and battery/charging management',
+          'Spotify and Bluetooth connectivity views',
+          'Weather and ambient information surfaces',
+          'Layout system built for ultra-wide displays',
+        ],
+      },
+    },
+    {
+      num: '08',
+      slug: 'instrument-cluster',
+      title: 'Digital Instrument Cluster UI',
+      description:
+        'High-contrast automotive cluster — startup sequence, speed, battery, range, warning icons, and driving-state visualization.',
+      tags: ['Qt QML', 'C++', 'Automotive'],
+      url: 'https://techcoderhub.com/projects/hmi-4',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Quick'],
+        overview:
+          'A high-contrast digital instrument cluster covering the full driving lifecycle: startup animation, speed and battery gauges, range estimation, warning iconography, and driving-state visualization — engineered for glanceable readability.',
+        features: [
+          'Animated startup sequence',
+          'Speed, battery, and range gauges',
+          'Full warning icon states',
+          'Driving-state visualization',
+        ],
+      },
+    },
+    {
+      num: '09',
+      slug: 'password-manager-ui',
+      title: 'StrongPassword Manager UI',
+      description:
+        'Desktop password-manager UI — 13 screens covering vault categories, security, privacy, developer options, and account settings.',
+      tags: ['Qt QML', 'C++', 'Desktop UI'],
+      url: 'https://techcoderhub.com/projects/manager-ui',
+      details: {
+        role: 'Design & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Quick Controls'],
+        overview:
+          'A dark desktop utility drawing on my Enpass experience: 13 screens for password-manager preferences, security controls, privacy and developer settings, account pages, and vault-category discovery flows — a complete desktop app shell in Qt/QML.',
+        features: [
+          'Vault categories and discovery flows',
+          'Security and privacy control panels',
+          'Developer options and account settings',
+          'Cross-platform desktop shell (Windows/Linux/macOS)',
         ],
       },
     },

@@ -46,6 +46,71 @@ const ARTS = [
     </g>
     <path d="M104 46a8 8 0 0 1 12 0M100 40a14 14 0 0 1 20 0" strokeLinecap="round" opacity="0.5" />
   </svg>,
+  // 04 — console: card grid layout
+  <svg key="console" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="34" y="18" width="152" height="94" rx="10" strokeDasharray="5 4" opacity="0.6" />
+    <g opacity="0.7">
+      <rect x="46" y="30" width="60" height="40" rx="5" />
+      <rect x="114" y="30" width="60" height="18" rx="5" />
+      <rect x="114" y="54" width="60" height="16" rx="5" />
+      <rect x="46" y="78" width="36" height="22" rx="5" />
+      <rect x="90" y="78" width="36" height="22" rx="5" />
+      <rect x="134" y="78" width="40" height="22" rx="5" />
+    </g>
+    <circle cx="76" cy="50" r="7" opacity="0.5" />
+  </svg>,
+  // 05 — scooty: compact gauge with wheels
+  <svg key="scooty" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M78 74a32 32 0 1 1 64 0" opacity="0.8" />
+    <path d="M110 74 96 54" strokeWidth="2" opacity="0.8" />
+    <circle cx="110" cy="74" r="3.5" fill="currentColor" stroke="none" opacity="0.6" />
+    <g opacity="0.55">
+      <circle cx="66" cy="102" r="12" strokeDasharray="4 4" />
+      <circle cx="154" cy="102" r="12" strokeDasharray="4 4" />
+      <path d="M78 102h64" />
+    </g>
+    <path d="M96 28h28" strokeLinecap="round" opacity="0.5" strokeDasharray="4 4" />
+  </svg>,
+  // 06 — tesla: steering wheel
+  <svg key="wheel" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="110" cy="65" r="44" opacity="0.8" />
+    <circle cx="110" cy="65" r="12" opacity="0.7" />
+    <g opacity="0.6">
+      <path d="M68 58c26-10 58-10 84 0M110 77v30" />
+    </g>
+    <circle cx="110" cy="65" r="52" strokeDasharray="3 6" opacity="0.35" />
+  </svg>,
+  // 07 — wide EV: panoramic display
+  <svg key="wide" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="20" y="34" width="180" height="62" rx="9" strokeDasharray="5 4" opacity="0.65" />
+    <g opacity="0.7">
+      <path d="M34 82 52 58l12 12 16-20" strokeLinejoin="round" />
+      <circle cx="110" cy="70" r="16" />
+      <path d="M110 70l8-10" strokeWidth="2" />
+      <rect x="140" y="52" width="46" height="8" rx="4" />
+      <rect x="140" y="66" width="34" height="8" rx="4" />
+    </g>
+    <path d="M92 110h36" strokeLinecap="round" opacity="0.4" />
+  </svg>,
+  // 08 — cluster: twin gauges
+  <svg key="gauges" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M42 84a28 28 0 1 1 56 0" opacity="0.8" />
+    <path d="M70 84 56 66" strokeWidth="2" opacity="0.8" />
+    <path d="M122 84a28 28 0 1 1 56 0" opacity="0.8" />
+    <path d="M150 84l16-14" strokeWidth="2" opacity="0.8" />
+    <g fill="currentColor" stroke="none" opacity="0.55">
+      <circle cx="70" cy="84" r="3.5" />
+      <circle cx="150" cy="84" r="3.5" />
+    </g>
+    <path d="M64 108h92" strokeDasharray="4 4" opacity="0.4" />
+  </svg>,
+  // 09 — password manager: shield + lock
+  <svg key="vault" viewBox="0 0 220 130" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M110 16 148 30v28c0 26-16 44-38 54-22-10-38-28-38-54V30z" strokeDasharray="5 4" opacity="0.65" strokeLinejoin="round" />
+    <rect x="96" y="58" width="28" height="24" rx="4" opacity="0.8" />
+    <path d="M101 58v-8a9 9 0 0 1 18 0v8" opacity="0.8" />
+    <circle cx="110" cy="69" r="3" fill="currentColor" stroke="none" opacity="0.6" />
+  </svg>,
 ]
 
 function ProjectCard({ p, art }) {

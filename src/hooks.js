@@ -1,6 +1,47 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Types out words one by one — type, hold, delete, next. */
+export function useTypeCycle(words, { type = 55, del = 28, hold = 1900 } = {}) {
+  const [text, setText] = useState(reduced() ? words[0] : '')
+
+  useEffect(() => {
+    if (reduced()) return
+    let word = 0
+    let i = 0
+    let deleting = false
+    let t
+
+    const tick = () => {
+      const cur = words[word]
+      if (!deleting) {
+        i += 1
+        setText(cur.slice(0, i))
+        if (i === cur.length) {
+          deleting = true
+          t = setTimeout(tick, hold)
+          return
+        }
+        t = setTimeout(tick, type)
+      } else {
+        i -= 1
+        setText(cur.slice(0, i))
+        if (i === 0) {
+          deleting = false
+          word = (word + 1) % words.length
+        }
+        t = setTimeout(tick, del)
+      }
+    }
+
+    t = setTimeout(tick, type)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return text
+}
 
 /** 3D tilt — the element leans toward the cursor like a floating panel. */
 export function useTilt(max = 7) {

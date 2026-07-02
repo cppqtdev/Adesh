@@ -1,9 +1,17 @@
 import { profile } from '../data.js'
+import { useTypeCycle } from '../hooks.js'
 
 export default function Footer() {
+  const hireFor = useTypeCycle(profile.hireFor, { hold: 2100 })
+
   return (
     <footer className="footer">
       <div className="container">
+        <p className="mono footer__hire">
+          <span className="accent">$</span> hire me for —&nbsp;
+          <span className="footer__hire-typed">{hireFor}</span>
+          <span className="hero__caret" aria-hidden="true" />
+        </p>
         <p className="mono footer__eof">End of file</p>
         <p className="footer__name">
           {profile.firstName.toUpperCase()}

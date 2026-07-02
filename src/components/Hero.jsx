@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react'
 import { profile } from '../data.js'
-import { useMagnetic } from '../hooks.js'
+import { useMagnetic, useTypeCycle } from '../hooks.js'
 import ParticleField from './ParticleField.jsx'
-
-const TYPED = profile.role
 
 /** Splits text into letters that rise in one by one. */
 function AnimatedLetters({ text, baseDelay = 0, step = 42 }) {
@@ -20,19 +17,9 @@ function AnimatedLetters({ text, baseDelay = 0, step = 42 }) {
 }
 
 export default function Hero() {
-  const [typed, setTyped] = useState('')
+  const typed = useTypeCycle(profile.roles)
   const primaryRef = useMagnetic(0.25)
   const ghostRef = useMagnetic(0.2)
-
-  useEffect(() => {
-    let i = 0
-    const id = setInterval(() => {
-      i += 1
-      setTyped(TYPED.slice(0, i))
-      if (i >= TYPED.length) clearInterval(id)
-    }, 55)
-    return () => clearInterval(id)
-  }, [])
 
   const title = `Hi, I'm ${profile.firstName}`
 
