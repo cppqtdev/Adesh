@@ -602,17 +602,22 @@ main,
 }
 
 .about__avatar {
-  height: 190px;
-  display: grid;
-  place-items: center;
-  font-size: 3.4rem;
-  color: var(--accent);
-  background: radial-gradient(circle at 50% 40%, var(--accent-dim), transparent 70%);
-  border: 1px dashed var(--line);
+  border: 1px solid var(--line);
   border-radius: 10px;
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
+}
+
+.about__avatar img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.about__card figcaption .nav__clock-dot {
+  display: inline-block;
+  margin-right: 6px;
 }
 
 /* Scanline sweeping over the avatar */

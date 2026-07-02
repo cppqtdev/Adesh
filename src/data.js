@@ -9,7 +9,7 @@ export const profile = {
   companyEmail: 'contact@techcoderhub.com',
   phone: '+91 99710 35504',
   location: 'Gurugram, India',
-  resumeUrl: '/resume.pdf',
+  resumeUrl: 'https://divyadesh.github.io/',
   links: {
     github: 'https://github.com/cppqtdev',
     linkedin: 'https://in.linkedin.com/in/adesh-singh-9a882316a',

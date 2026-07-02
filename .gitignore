@@ -29,3 +29,6 @@ pnpm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Raw source assets (optimized copies are committed instead)
+public/Adesh Singh.png

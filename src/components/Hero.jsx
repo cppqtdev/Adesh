@@ -59,8 +59,8 @@ export default function Hero() {
           <a ref={primaryRef} href="#contact" className="btn btn--primary">
             Start a project&nbsp;↗
           </a>
-          <a ref={ghostRef} href={profile.resumeUrl} className="btn btn--ghost" download>
-            ↓&nbsp;Download résumé
+          <a ref={ghostRef} href={profile.resumeUrl} target="_blank" rel="noreferrer" className="btn btn--ghost">
+            View résumé&nbsp;↗
           </a>
         </div>
       </div>

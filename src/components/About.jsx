@@ -14,10 +14,12 @@ export default function About() {
         </Reveal>
         <Reveal delay={120} className="about__card-wrap">
           <figure className="about__card">
-            <div className="about__avatar mono" aria-hidden="true">
-              {'</>'}
+            <div className="about__avatar">
+              <img src="/avatar.jpg" alt={profile.name} loading="lazy" />
             </div>
-            <figcaption className="mono">Hello, I'm {profile.firstName}.</figcaption>
+            <figcaption className="mono">
+              <span className="nav__clock-dot" /> Hello, I'm {profile.firstName}.
+            </figcaption>
           </figure>
         </Reveal>
       </div>

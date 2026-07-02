@@ -21,9 +21,7 @@ const shell = (content) => `<!doctype html>
 <!-- logo -->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
 <tr><td align="center" style="padding-bottom:28px;">
-  <table role="presentation" cellpadding="0" cellspacing="0"><tr>
-    <td style="background:#131513;border-radius:12px;width:52px;height:52px;text-align:center;vertical-align:middle;font-family:'Courier New',monospace;font-size:22px;font-weight:bold;color:${ACCENT};">A.</td>
-  </tr></table>
+  <img src="${SITE}/logo.png" alt="TechCoderHub" width="56" height="56" style="display:block;border:0;">
 </td></tr>
 </table>
 
@@ -96,6 +94,7 @@ export function replyTemplate({ name, message }) {
 
 <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#16181a;">In the meantime, feel free to explore my <a href="https://github.com/cppqtdev" style="color:${ACCENT};text-decoration:none;">open-source Qt/QML work</a> or <a href="https://techcoderhub.com/projects" style="color:${ACCENT};text-decoration:none;">TechCoderHub case studies</a>.</p>
 
-<p style="margin:0;font-size:15px;color:#16181a;">Best regards,<br><strong>Adesh Singh</strong><br><span style="font-size:13px;color:#667065;">Qt QML Engineer &middot; Founder, TechCoderHub</span></p>
+<p style="margin:0 0 14px;font-size:15px;color:#16181a;">Best regards,<br><strong>Adesh Singh</strong><br><span style="font-size:13px;color:#667065;">Qt QML Engineer &middot; Founder, TechCoderHub</span></p>
+<img src="${SITE}/email-sig-transparent.png" alt="TechCoderHub — techcoderhub.com" width="160" style="display:block;border:0;">
 `)
 }
