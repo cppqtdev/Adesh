@@ -573,7 +573,12 @@ main,
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: 56px;
-  align-items: start;
+  align-items: center; /* vertical center against the text */
+}
+
+.about__card-wrap {
+  display: flex;
+  justify-content: center; /* horizontal center in the column */
 }
 
 .about__text p {
@@ -590,10 +595,12 @@ main,
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 24px;
   text-align: center;
   transition: transform 0.3s ease, border-color 0.3s ease;
   box-shadow: 0 4px 24px var(--shadow);
+  width: 100%;
+  max-width: 320px;
 }
 
 .about__card:hover {
