@@ -1,4 +1,6 @@
 import { ownerTemplate, replyTemplate } from './_emails.js'
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 /**
  * Vercel serverless function: POST /api/contact
@@ -14,6 +16,48 @@ import { ownerTemplate, replyTemplate } from './_emails.js'
 
 const RESEND_URL = 'https://api.resend.com/emails'
 const DEFAULT_FROM_EMAIL = 'Adesh Singh <contact@techcoderhub.com>'
+const LOCAL_ENV_FILES = ['.env.local', '.env']
+
+let localEnv
+
+function parseEnvValue(value = '') {
+  const trimmed = value.trim()
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1)
+  }
+  return trimmed
+}
+
+function loadLocalEnv() {
+  if (localEnv) return localEnv
+
+  localEnv = {}
+  for (const file of LOCAL_ENV_FILES) {
+    const path = resolve(process.cwd(), file)
+    if (!existsSync(path)) continue
+
+    const lines = readFileSync(path, 'utf8').split(/\r?\n/)
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('#')) continue
+
+      const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/)
+      if (!match) continue
+
+      const [, key, value] = match
+      if (!localEnv[key]) localEnv[key] = parseEnvValue(value)
+    }
+  }
+
+  return localEnv
+}
+
+function env(name) {
+  return process.env[name] || loadLocalEnv()[name]
+}
 
 async function send(key, payload) {
   const res = await fetch(RESEND_URL, {
@@ -45,11 +89,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'One of the fields is too long.' })
   }
 
-  const key = process.env.RESEND_API_KEY
+  const key = env('RESEND_API_KEY')
   if (!key) return res.status(500).json({ error: 'Email service is not configured.' })
 
-  const to = process.env.CONTACT_EMAIL || 'adeshworkmail@gmail.com'
-  const from = process.env.FROM_EMAIL || DEFAULT_FROM_EMAIL
+  const to = env('CONTACT_EMAIL') || 'adeshworkmail@gmail.com'
+  const from = env('FROM_EMAIL') || DEFAULT_FROM_EMAIL
   const data = { name: name.trim(), email: email.trim(), project: project.trim(), message: message.trim() }
 
   try {

@@ -32,3 +32,5 @@ Thumbs.db
 
 # Raw source assets (optimized copies are committed instead)
 public/Adesh Singh.png
+.vercel
+.env*
