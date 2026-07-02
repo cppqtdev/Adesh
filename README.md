@@ -22,15 +22,15 @@ To test the contact API locally: `npm i -g vercel && vercel dev`
 |---|---|
 | `RESEND_API_KEY` | from [resend.com/api-keys](https://resend.com/api-keys) (free: 100 emails/day) |
 | `CONTACT_EMAIL` | `adeshworkmail@gmail.com` |
-| `FROM_EMAIL` | see below |
+| `FROM_EMAIL` | `Adesh Singh <contact@techcoderhub.com>` |
 | `SITE_URL` | your deployed URL |
 
 Every `git push` auto-deploys. Hobby plan is free permanently.
 
 ### Email sender (FROM_EMAIL)
 
-- **Without a domain**: leave `FROM_EMAIL` unset. Resend's `onboarding@resend.dev` is used — the notification to you works, but the auto-reply to visitors only delivers to your own account email (Resend restriction).
-- **With a domain**: verify it at Resend → Domains (add 2 DNS records), then set `FROM_EMAIL="Adesh Singh <hello@yourdomain>"`. Both templates then deliver to anyone.
+- `techcoderhub.com` is verified in Resend, so use `FROM_EMAIL="Adesh Singh <contact@techcoderhub.com>"`.
+- Do not use Resend's `onboarding@resend.dev` for the portfolio form. It can only send to the Resend account email and fails when sending to `adeshworkmail@gmail.com`.
 
 ### Domain options
 

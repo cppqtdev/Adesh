@@ -9,12 +9,11 @@ import { ownerTemplate, replyTemplate } from './_emails.js'
  * Required env vars (Vercel dashboard → Settings → Environment Variables):
  *   RESEND_API_KEY  — from https://resend.com/api-keys
  *   CONTACT_EMAIL   — where inquiries land (default: adeshworkmail@gmail.com)
- *   FROM_EMAIL      — verified sender, e.g. "Adesh Singh <hello@yourdomain.dev>"
- *                     (default: onboarding@resend.dev — works out of the box,
- *                      but can only deliver to your own Resend account email)
+ *   FROM_EMAIL      — verified sender, e.g. "Adesh Singh <contact@techcoderhub.com>"
  */
 
 const RESEND_URL = 'https://api.resend.com/emails'
+const DEFAULT_FROM_EMAIL = 'Adesh Singh <contact@techcoderhub.com>'
 
 async function send(key, payload) {
   const res = await fetch(RESEND_URL, {
@@ -50,7 +49,7 @@ export default async function handler(req, res) {
   if (!key) return res.status(500).json({ error: 'Email service is not configured.' })
 
   const to = process.env.CONTACT_EMAIL || 'adeshworkmail@gmail.com'
-  const from = process.env.FROM_EMAIL || 'Adesh Portfolio <onboarding@resend.dev>'
+  const from = process.env.FROM_EMAIL || DEFAULT_FROM_EMAIL
   const data = { name: name.trim(), email: email.trim(), project: project.trim(), message: message.trim() }
 
   try {
