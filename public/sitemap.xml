@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://adeshsingh.vercel.app/</loc><priority>1.0</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/vehicle-infotainment</loc><priority>0.8</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/icu-ventilator</loc><priority>0.8</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/he1ma-home-automation</loc><priority>0.8</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/reamon-console</loc><priority>0.8</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/scooty-dashboard</loc><priority>0.8</priority></url>
-  <url><loc>https://adeshsingh.vercel.app/projects/tesla-dashboard</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/vehicle-infotainment</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/icu-ventilator</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/he1ma-home-automation</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/reamon-console</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/scooty-dashboard</loc><priority>0.8</priority></url>
+  <url><loc>https://adesh-singh.vercel.app/projects/tesla-dashboard</loc><priority>0.8</priority></url>
 </urlset>

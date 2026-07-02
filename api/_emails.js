@@ -4,7 +4,7 @@
  */
 
 const ACCENT = '#17913f'
-const SITE = process.env.SITE_URL || 'https://adeshsingh.vercel.app'
+const SITE = process.env.SITE_URL || 'https://adesh-singh.vercel.app'
 
 const esc = (s = '') =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
