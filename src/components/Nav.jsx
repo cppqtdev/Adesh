@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { profile } from '../data.js'
+import { isSoundOn, setSoundOn } from '../sound.js'
 
 function Clock() {
   const [time, setTime] = useState('')
@@ -45,6 +46,13 @@ function MoonIcon() {
 
 export default function Nav({ theme, onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false)
+  const [sound, setSound] = useState(isSoundOn)
+
+  const toggleSound = () => {
+    const next = !sound
+    setSound(next)
+    setSoundOn(next)
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -56,11 +64,20 @@ export default function Nav({ theme, onToggleTheme }) {
   return (
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__inner container">
-        <a href="#top" className="nav__logo mono" aria-label={profile.name}>
+        <a href="/" className="nav__logo mono" aria-label={profile.name}>
           {profile.firstName.toUpperCase()}<span className="accent">.</span>
         </a>
         <Clock />
         <div className="nav__right">
+          <button
+            type="button"
+            className="nav__theme"
+            onClick={toggleSound}
+            aria-label={`Turn UI sounds ${sound ? 'off' : 'on'}`}
+            title={`UI sounds: ${sound ? 'on' : 'off'}`}
+          >
+            {sound ? '♪' : '𝄽'}
+          </button>
           <button
             type="button"
             className="nav__theme"
@@ -70,7 +87,7 @@ export default function Nav({ theme, onToggleTheme }) {
           >
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
-          <a href="#contact" className="nav__cta mono">
+          <a href="/#contact" className="nav__cta mono">
             Let's talk&nbsp;↗
           </a>
         </div>

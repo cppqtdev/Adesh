@@ -98,27 +98,69 @@ export const projects = {
   items: [
     {
       num: '01',
+      slug: 'vehicle-infotainment',
       title: 'Professional Vehicle Infotainment UI',
       description:
         'Full-featured car infotainment system with dual light/dark themes, navigation, media, climate control, EV battery management, voice assistant and a theme studio for cabin personalization.',
       tags: ['Qt QML', 'C++', 'Automotive HMI'],
       url: 'https://techcoderhub.com/projects/smart-car-info',
+      details: {
+        role: 'Design & full implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++17', 'Qt Quick Controls', 'CMake'],
+        overview:
+          'A production-grade in-vehicle infotainment interface covering every screen a modern EV cockpit needs. Built with a strict C++/QML separation: business logic, vehicle-data models and services in C++, with a fully declarative QML view layer running at 60 fps on embedded targets.',
+        features: [
+          'Dual light/dark cabin themes with a live theme studio for personalization',
+          'Navigation, media playback and climate control surfaces',
+          'EV battery management with charge planning views',
+          'Voice assistant integration and driver profiles',
+          'Vehicle status, tire pressure and safety settings screens',
+        ],
+      },
     },
     {
       num: '02',
+      slug: 'icu-ventilator',
       title: 'ICU Smart Ventilator UI',
       description:
         'Clinical ventilator operator console for patient setup, live waveform monitoring, alarms, trends, therapy controls and service workflows.',
       tags: ['Qt QML', 'C++', 'Medical HMI'],
       url: 'https://techcoderhub.com/projects/smart-ventilator',
+      details: {
+        role: 'HMI architecture & implementation — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'Qt Charts', 'Embedded Linux'],
+        overview:
+          'A clinical operator console where display correctness is a safety requirement. Real-time waveform rendering, deterministic alarm surfacing and workflows designed so critical actions are always reachable within two touches.',
+        features: [
+          'Live pressure/flow/volume waveform monitoring',
+          'Patient setup and therapy control workflows',
+          'Prioritized alarm system with escalation states',
+          'Historical trends and event logging views',
+          'Service and calibration workflows for technicians',
+        ],
+      },
     },
     {
       num: '03',
+      slug: 'he1ma-home-automation',
       title: 'HE1MA Home Automation UI',
       description:
         'Smart home control interface for centralized device management — real-time status, scenes, and device control on embedded Linux touch panels.',
       tags: ['Qt QML', 'C++', 'Home Automation'],
       url: 'https://techcoderhub.com/projects/he1ma',
+      details: {
+        role: 'UI development — TechCoderHub',
+        stack: ['Qt 6', 'QML', 'C++', 'MQTT', 'Embedded Linux', 'EGLFS'],
+        overview:
+          'A wall-panel smart home controller running on embedded Linux. Centralized control of lighting, climate, security and media devices with real-time state sync over MQTT and an interface tuned for at-a-glance readability.',
+        features: [
+          'Centralized device management with live status',
+          'Scenes and automation scheduling',
+          'Room-based navigation optimized for touch panels',
+          'Real-time device state sync over MQTT',
+          'Runs on embedded Linux with EGLFS — no window system needed',
+        ],
+      },
     },
   ],
 }

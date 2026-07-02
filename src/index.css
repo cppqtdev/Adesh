@@ -181,6 +181,81 @@ a:hover {
   }
 }
 
+/* ── Custom cursor ── */
+.has-cursor,
+.has-cursor a,
+.has-cursor button,
+.has-cursor input,
+.has-cursor textarea {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--accent-bright);
+  box-shadow: 0 0 12px var(--accent-bright);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--accent);
+  opacity: 0.55;
+  transition: width 0.25s ease, height 0.25s ease, margin 0.25s ease, opacity 0.25s ease;
+}
+
+.cursor-ring--active {
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  opacity: 0.9;
+}
+
+.cursor-ring--down {
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+}
+
+/* ── Boot screen ── */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.boot--fading {
+  opacity: 0;
+}
+
+.boot__terminal {
+  color: var(--accent);
+  font-size: 0.95rem;
+  line-height: 2;
+  min-width: min(420px, 80vw);
+}
+
+.boot__terminal p {
+  animation: rise-ch 0.25s ease both;
+}
+
 /* ── Buttons ── */
 .btn {
   display: inline-block;
@@ -857,6 +932,20 @@ main,
   background: var(--accent-dim);
 }
 
+.skills-graph-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.skills-graph {
+  display: block;
+  width: 100%;
+  touch-action: none;
+}
+
 .skills__hint {
   color: var(--muted);
   margin-bottom: 40px;
@@ -891,6 +980,159 @@ main,
 .skills__cat--active {
   color: var(--accent);
   border-bottom-color: var(--accent);
+}
+
+/* ── Project detail page ── */
+.detail {
+  padding-top: 160px;
+  min-height: 70vh;
+}
+
+.detail__back {
+  color: var(--muted);
+  display: inline-block;
+  margin-bottom: 36px;
+}
+
+.detail__back:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.detail__num {
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.detail__title {
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin-bottom: 10px;
+}
+
+.detail__role {
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.detail__tags {
+  margin-bottom: 44px;
+}
+
+.detail__h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.detail__text {
+  color: var(--muted);
+  max-width: 68ch;
+  margin-bottom: 40px;
+  font-size: 1.05rem;
+}
+
+.detail__points {
+  margin-bottom: 44px;
+}
+
+.detail__actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ── GitHub / open source ── */
+.gh-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+
+.gh-stats strong {
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.gh-stats__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 44px;
+}
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  color: var(--text);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.repo-card:hover {
+  text-decoration: none;
+  border-color: var(--accent);
+}
+
+.repo-card--skeleton {
+  opacity: 0.4;
+  min-height: 130px;
+}
+
+.repo-card__name {
+  color: var(--accent);
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.repo-card__arrow {
+  color: var(--muted);
+}
+
+.repo-card:hover .repo-card__arrow {
+  color: var(--accent);
+}
+
+.repo-card__desc {
+  color: var(--muted);
+  font-size: 0.92rem;
+  flex: 1;
+}
+
+.repo-card__meta {
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.gh-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.gh-more__links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 /* ── Contact ── */
@@ -1011,6 +1253,37 @@ main,
 
 .contact__form .btn {
   align-self: flex-start;
+}
+
+.contact__form .btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.form-status {
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.form-status--ok {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.form-status--err {
+  color: #e5484d;
+  border-color: #e5484d;
+  background: rgba(229, 72, 77, 0.08);
 }
 
 /* ── Footer ── */

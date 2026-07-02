@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { projects } from '../data.js'
 import { useTilt } from '../hooks.js'
 import SectionHeader from './SectionHeader.jsx'
@@ -6,7 +7,7 @@ import Reveal from './Reveal.jsx'
 function ProjectCard({ p }) {
   const tiltRef = useTilt(5)
   return (
-    <a ref={tiltRef} href={p.url} target="_blank" rel="noreferrer" className="project-card">
+    <Link ref={tiltRef} to={`/projects/${p.slug}`} className="project-card">
       <span className="project-card__num mono">{p.num}</span>
       <div className="project-card__body">
         <h3 className="project-card__title">{p.title}</h3>
@@ -20,9 +21,9 @@ function ProjectCard({ p }) {
         </div>
       </div>
       <span className="project-card__arrow mono" aria-hidden="true">
-        ↗
+        →
       </span>
-    </a>
+    </Link>
   )
 }
 

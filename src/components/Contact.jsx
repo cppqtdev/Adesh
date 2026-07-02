@@ -30,13 +30,14 @@ const cards = [
 ]
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', project: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', project: '', message: '', company: '' })
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [errorMsg, setErrorMsg] = useState('')
   const sendRef = useMagnetic(0.25)
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
-  const submit = (e) => {
-    e.preventDefault()
+  const mailtoFallback = () => {
     const subject = encodeURIComponent(`Project inquiry — ${form.project || 'Qt/QML'}`)
     const body = encodeURIComponent(
       `Name: ${form.name}\nEmail: ${form.email}\nProject: ${form.project}\n\n${form.message}`,
@@ -44,10 +45,36 @@ export default function Contact() {
     window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
   }
 
+  const submit = async (e) => {
+    e.preventDefault()
+    if (status === 'sending') return
+    setStatus('sending')
+    setErrorMsg('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        setForm({ name: '', email: '', project: '', message: '', company: '' })
+        return
+      }
+      const data = await res.json().catch(() => ({}))
+      setErrorMsg(data.error || 'Something went wrong.')
+      setStatus('error')
+    } catch {
+      // No API available (e.g. running locally without vercel dev) — open mail app
+      mailtoFallback()
+      setStatus('idle')
+    }
+  }
+
   return (
     <section className="section container" id="contact">
       <SectionHeader
-        num="05"
+        num="06"
         label="contact"
         kicker={contact.kicker}
         heading={
@@ -102,9 +129,32 @@ export default function Contact() {
               placeholder="Tell me about your hardware target, Qt version and scope…"
             />
           </label>
-          <button ref={sendRef} type="submit" className="btn btn--primary">
-            Send it
-          </button>
+          {/* Honeypot — hidden from humans, bots fill it */}
+          <input
+            type="text"
+            name="company"
+            value={form.company}
+            onChange={set('company')}
+            className="hp-field"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
+          {status === 'sent' ? (
+            <p className="form-status form-status--ok mono">
+              ✓ Sent — check your inbox for a confirmation. I'll reply within 24h.
+            </p>
+          ) : (
+            <button ref={sendRef} type="submit" className="btn btn--primary" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Sending…' : 'Send it'}
+            </button>
+          )}
+          {status === 'error' && (
+            <p className="form-status form-status--err mono">
+              ✗ {errorMsg}{' '}
+              <a href={`mailto:${profile.email}`}>Email me directly ↗</a>
+            </p>
+          )}
         </form>
       </Reveal>
     </section>
