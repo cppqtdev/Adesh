@@ -56,7 +56,8 @@ function loadLocalEnv() {
 }
 
 function env(name) {
-  return process.env[name] || loadLocalEnv()[name]
+  const value = process.env[name] || loadLocalEnv()[name]
+  return value ? parseEnvValue(value) : value
 }
 
 async function send(key, payload) {
