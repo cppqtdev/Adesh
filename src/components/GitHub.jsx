@@ -5,6 +5,8 @@ import SectionHeader from './SectionHeader.jsx'
 import Reveal from './Reveal.jsx'
 
 const USER = 'cppqtdev'
+// YouTube channel UCRnQVTzuAAwPpsRIJ7fHatw → uploads playlist (UU prefix)
+const YT_UPLOADS = 'UURnQVTzuAAwPpsRIJ7fHatw'
 
 function RepoCard({ repo }) {
   const tiltRef = useTilt(6)
@@ -98,6 +100,19 @@ export default function GitHub() {
           </Reveal>
         ))}
       </div>
+      <Reveal>
+        <p className="mono comment yt-label">// latest from @techcoderhub</p>
+        <div className="yt-embed">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/videoseries?list=${YT_UPLOADS}`}
+            title="TechCoderHub — latest YouTube uploads"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </div>
+      </Reveal>
       <Reveal className="gh-more">
         <span className="mono comment">// tutorials & UI breakdowns on YouTube</span>
         <div className="gh-more__links">

@@ -940,7 +940,7 @@ main,
 .skills-graph-wrap {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--panel);
+  background: transparent; /* let the hexgrid show through */
   overflow: hidden;
   margin-bottom: 18px;
 }
@@ -1124,6 +1124,26 @@ main,
   gap: 18px;
   color: var(--muted);
   font-size: 0.75rem;
+}
+
+.yt-label {
+  margin-bottom: 14px;
+}
+
+.yt-embed {
+  aspect-ratio: 16 / 9;
+  max-width: 720px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 44px;
+}
+
+.yt-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .gh-more {
