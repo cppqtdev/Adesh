@@ -33,15 +33,20 @@ export default function SkillsGraph({ activeCat, catColors, onHover }) {
       edges = []
       const cx = w / 2
       const cy = h / 2
-      const R = Math.min(w, h) * 0.3
+      const R = Math.min(w, h) * 0.42
       const catCount = skills.categories.length
       skills.categories.forEach((cat, ci) => {
         const ang = (ci / catCount) * Math.PI * 2 - Math.PI / 2
-        // invisible anchor per category — keeps the blob loosely organised
+        // invisible anchor per category — orbits slowly so the blob never freezes
         const anchor = {
-          x: cx + Math.cos(ang) * R * 0.55,
-          y: cy + Math.sin(ang) * R * 0.55,
+          baseX: cx + Math.cos(ang) * R * 0.6,
+          baseY: cy + Math.sin(ang) * R * 0.6,
+          phase: ci * 1.7,
+          x: 0,
+          y: 0,
         }
+        anchor.x = anchor.baseX
+        anchor.y = anchor.baseY
         const start = nodes.length
         cat.items.forEach((item, ii) => {
           const a2 = ang + (ii / cat.items.length) * Math.PI * 2
@@ -113,7 +118,14 @@ export default function SkillsGraph({ activeCat, catColors, onHover }) {
       onHover?.(null)
     }
 
-    const step = () => {
+    const step = (time) => {
+      // anchors orbit gently — keeps the whole graph alive
+      for (const n of nodes) {
+        const a = n.anchor
+        a.x = a.baseX + Math.sin(time * 0.4 + a.phase) * 26
+        a.y = a.baseY + Math.cos(time * 0.3 + a.phase) * 20
+      }
+      // pairwise repulsion — generous spacing so labels don't collide
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i]
@@ -122,8 +134,8 @@ export default function SkillsGraph({ activeCat, catColors, onHover }) {
           let dy = a.y - b.y
           let d2 = dx * dx + dy * dy
           if (d2 < 1) d2 = 1
-          if (d2 > 150 * 150) continue
-          const f = 1300 / d2
+          if (d2 > 190 * 190) continue
+          const f = 2600 / d2
           const d = Math.sqrt(d2)
           dx /= d
           dy /= d
@@ -133,24 +145,40 @@ export default function SkillsGraph({ activeCat, catColors, onHover }) {
           b.vy -= dy * f
         }
       }
+      // springs along visible links — holds the web structure together
+      for (const [i, j] of edges) {
+        const a = nodes[i]
+        const b = nodes[j]
+        const dx = b.x - a.x
+        const dy = b.y - a.y
+        const d = Math.hypot(dx, dy) || 1
+        const f = (d - 85) * 0.0035
+        a.vx += (dx / d) * f
+        a.vy += (dy / d) * f
+        b.vx -= (dx / d) * f
+        b.vy -= (dy / d) * f
+      }
       for (const n of nodes) {
-        n.vx += (n.anchor.x - n.x) * 0.006
-        n.vy += (n.anchor.y - n.y) * 0.006
-        n.vx += (w / 2 - n.x) * 0.0012
-        n.vy += (h / 2 - n.y) * 0.0012
-        n.vx *= 0.88
-        n.vy *= 0.88
+        n.vx += (n.anchor.x - n.x) * 0.008
+        n.vy += (n.anchor.y - n.y) * 0.008
+        n.vx += (w / 2 - n.x) * 0.001
+        n.vy += (h / 2 - n.y) * 0.001
+        // tiny thermal jitter — never fully settles
+        n.vx += (Math.random() - 0.5) * 0.06
+        n.vy += (Math.random() - 0.5) * 0.06
+        n.vx *= 0.9
+        n.vy *= 0.9
         if (n !== dragging) {
           n.x += n.vx
           n.y += n.vy
         }
-        n.x = Math.max(14, Math.min(w - 14, n.x))
-        n.y = Math.max(14, Math.min(h - 14, n.y))
+        n.x = Math.max(16, Math.min(w - 90, n.x)) // leave room for labels
+        n.y = Math.max(16, Math.min(h - 16, n.y))
       }
     }
 
-    const draw = () => {
-      step()
+    const draw = (now) => {
+      step(now * 0.001)
       ctx.clearRect(0, 0, w, h)
       const c = theme()
       const active = activeRef.current
